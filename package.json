@@ -12,6 +12,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }

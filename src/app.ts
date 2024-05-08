@@ -5,8 +5,8 @@ import { MoviesService } from "./library/movies.service";
 
 export function build() {
   const app = express();
-  debugger
 
+  app.use(express.json());
   app.use(new MoviesController(new MoviesService()).routes);
 
   app.get("/healthcheck", (_req: Request, res: Response) => {

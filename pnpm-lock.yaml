@@ -11,12 +11,18 @@ dependencies:
   drizzle-orm:
     specifier: ^0.30.9
     version: 0.30.9(@types/better-sqlite3@7.6.10)(better-sqlite3@9.5.0)
+  drizzle-zod:
+    specifier: ^0.5.1
+    version: 0.5.1(drizzle-orm@0.30.9)(zod@3.23.7)
   express:
     specifier: ^4.19.2
     version: 4.19.2
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
+  zod:
+    specifier: ^3.23.7
+    version: 3.23.7
 
 devDependencies:
   '@types/better-sqlite3':
@@ -671,14 +677,14 @@ packages:
     engines: {node: '>=18.14.1'}
     dev: true
 
-  /@hono/zod-validator@0.2.1(hono@4.2.7)(zod@3.23.4):
+  /@hono/zod-validator@0.2.1(hono@4.2.7)(zod@3.23.7):
     resolution: {integrity: sha512-HFoxln7Q6JsE64qz2WBS28SD33UB2alp3aRKmcWnNLDzEL1BLsWfbdX6e1HIiUprHYTIXf5y7ax8eYidKUwyaA==}
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
     dependencies:
       hono: 4.2.7
-      zod: 3.23.4
+      zod: 3.23.7
     dev: true
 
   /@types/better-sqlite3@7.6.10:
@@ -996,7 +1002,7 @@ packages:
     dependencies:
       '@esbuild-kit/esm-loader': 2.6.5
       '@hono/node-server': 1.11.0
-      '@hono/zod-validator': 0.2.1(hono@4.2.7)(zod@3.23.4)
+      '@hono/zod-validator': 0.2.1(hono@4.2.7)(zod@3.23.7)
       camelcase: 7.0.1
       chalk: 5.3.0
       commander: 9.5.0
@@ -1010,7 +1016,7 @@ packages:
       minimatch: 7.4.6
       semver: 7.6.0
       superjson: 2.2.1
-      zod: 3.23.4
+      zod: 3.23.7
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1097,6 +1103,16 @@ packages:
     dependencies:
       '@types/better-sqlite3': 7.6.10
       better-sqlite3: 9.5.0
+    dev: false
+
+  /drizzle-zod@0.5.1(drizzle-orm@0.30.9)(zod@3.23.7):
+    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+      zod: '*'
+    dependencies:
+      drizzle-orm: 0.30.9(@types/better-sqlite3@7.6.10)(better-sqlite3@9.5.0)
+      zod: 3.23.7
     dev: false
 
   /ee-first@1.1.1:
@@ -1984,6 +2000,5 @@ packages:
   /yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
-  /zod@3.23.4:
-    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
-    dev: true
+  /zod@3.23.7:
+    resolution: {integrity: sha512-NBeIoqbtOiUMomACV/y+V3Qfs9+Okr18vR5c/5pHClPpufWOrsx8TENboDPe265lFdfewX2yBtNTLPvnmCxwog==}

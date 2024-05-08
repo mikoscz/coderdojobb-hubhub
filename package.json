@@ -5,17 +5,23 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/bin/api.js",
+    "start": "node dist/src/bin/api.js",
     "dev": "pnpm run build && pnpm run start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.10",
     "@types/express": "^4.17.21",
+    "@types/uuid": "^9.0.8",
+    "drizzle-kit": "^0.20.17",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "better-sqlite3": "^9.5.0",
+    "drizzle-orm": "^0.30.9",
+    "express": "^4.19.2",
+    "uuid": "^9.0.1"
   }
 }

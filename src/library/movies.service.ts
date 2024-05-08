@@ -4,7 +4,14 @@
 //   yearOfRelease: number;
 //   addedAt: Date;
 
-const movies = [
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import Database from "better-sqlite3";
+import { movies } from "../drizzle/schema";
+const sqlite = new Database("hubhub.db");
+const db = drizzle(sqlite);
+// const result = await db.select().from(users);
+
+const sampleMovies = [
   {
     id: "c9f0c745-0465-4bd1-bf0e-04722533901b",
     title: "Movie 1",
@@ -24,7 +31,11 @@ const movies = [
 ];
 
 export class MoviesService {
-  getAllMovies() {
-    return movies;
+  async getAllMovies() {
+    return db.select().from(movies);
   }
+
+  // async create() {
+  //   return db.insert(movies).values(sampleMovies);
+  // }
 }

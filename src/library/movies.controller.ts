@@ -8,7 +8,9 @@ export class MoviesController {
     this.routes.get("/movies", this.index);
   }
 
-  index = (req: Request, res: Response) => {
-    res.json(this.moviesService.getAllMovies());
+  index = async (_req: Request, res: Response) => {
+    res.json({
+      data: await this.moviesService.getAllMovies(),
+    });
   };
 }

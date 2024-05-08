@@ -39,3 +39,5 @@ export class MoviesService {
   //   return db.insert(movies).values(sampleMovies);
   // }
 }
+
+// /movies/c9f0c745-0465-4bd1-bf0e-04722533901b

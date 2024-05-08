@@ -5,6 +5,7 @@ import { MoviesService } from "./library/movies.service";
 
 export function build() {
   const app = express();
+  debugger
 
   app.use(new MoviesController(new MoviesService()).routes);
 

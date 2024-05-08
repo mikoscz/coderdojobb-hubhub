@@ -22,6 +22,10 @@ export class MoviesService {
     return movie;
   }
 
+  async deleteMovieById(id: string) {
+    return db.delete(movies).where(eq(movies.id, id));
+  }
+
   async createMovie(
     movie: InferInsertModel<typeof movies>
   ): Promise<InferSelectModel<typeof movies>> {

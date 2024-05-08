@@ -13,6 +13,7 @@ export class MoviesController {
     this.routes.get("/movies", this.index);
     this.routes.get("/movies/:id", this.get);
     this.routes.post("/movies", this.create);
+    this.routes.delete("/movies/:id", this.delete);
   }
 
   index = async (_req: Request, res: Response) => {
@@ -48,6 +49,22 @@ export class MoviesController {
         error: "Not Found",
       });
     }
+
+    res.json({
+      data: movie,
+    });
+  };
+
+  delete = async (req: Request, res: Response) => {
+    const movie = await this.moviesService.getMovieById(req.params.id);
+
+    if (!movie) {
+      return res.status(404).json({
+        error: "Not Found",
+      });
+    }
+
+    await this.moviesService.deleteMovieById(req.params.id);
 
     res.json({
       data: movie,

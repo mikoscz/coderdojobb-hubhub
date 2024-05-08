@@ -11,6 +11,7 @@ export class MoviesController {
 
   constructor(private readonly moviesService: MoviesService) {
     this.routes.get("/movies", this.index);
+    this.routes.get("/movies/:id", this.get);
     this.routes.post("/movies", this.create);
   }
 
@@ -36,6 +37,20 @@ export class MoviesController {
 
     res.json({
       data: await this.moviesService.createMovie(newMovie),
+    });
+  };
+
+  get = async (req: Request, res: Response) => {
+    const movie = await this.moviesService.getMovieById(req.params.id);
+
+    if (!movie) {
+      return res.status(404).json({
+        error: "Not Found",
+      });
+    }
+
+    res.json({
+      data: movie,
     });
   };
 }

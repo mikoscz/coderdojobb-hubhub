@@ -17,6 +17,6 @@ export function build() {
   return app;
 }
 
-// // /videos -> all available vidoes
+// /videos -> all available vidoes
 // /movies -> all available movies
 // /series -> all available series

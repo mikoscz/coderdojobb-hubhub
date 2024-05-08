@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/bin/api.js",
-    "dev": "pnpm run build && pnpm run start"
+    "dev": "pnpm run build && pnpm run start",
+    "db:migrate": "tsx ./src/bin/migrate.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@types/express": "^4.17.21",
     "@types/uuid": "^9.0.8",
     "drizzle-kit": "^0.20.18",
+    "tsx": "^4.9.3",
     "typescript": "^5.4.5"
   },
   "dependencies": {

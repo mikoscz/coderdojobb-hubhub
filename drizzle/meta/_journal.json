@@ -8,6 +8,13 @@
       "when": 1715177629267,
       "tag": "0000_create_movies",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1715180118896,
+      "tag": "0001_add_timestamps_to_movies",
+      "breakpoints": true
     }
   ]
 }

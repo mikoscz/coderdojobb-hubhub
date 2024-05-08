@@ -7,11 +7,12 @@
     "build": "tsc",
     "start": "node dist/src/bin/api.js",
     "dev": "pnpm run build && pnpm run start",
-    "db:migrate": "tsx ./src/bin/migrate.ts"
+    "db:migrate": "tsx ./src/bin/migrate.ts",
+    "db:generate": "drizzle-kit generate:sqlite"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.10",
     "@types/express": "^4.17.21",

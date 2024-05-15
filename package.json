@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/bin/api.js",
+    "start": "node --env-file=.env dist/src/bin/api.js",
     "dev": "pnpm run build && pnpm run start",
     "debug": "pnpm run build && node --inspect dist/src/bin/api.js",
     "db:migrate": "tsx ./src/bin/migrate.ts",
-    "db:generate": "drizzle-kit generate:sqlite"
+    "db:generate": "drizzle-kit generate:sqlite",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +21,8 @@
     "@types/uuid": "^9.0.8",
     "drizzle-kit": "^0.20.18",
     "tsx": "^4.9.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "better-sqlite3": "^9.5.0",
@@ -29,5 +31,8 @@
     "express": "^4.19.2",
     "uuid": "^9.0.1",
     "zod": "^3.23.7"
+  },
+  "volta": {
+    "node": "20.13.1"
   }
 }

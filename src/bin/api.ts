@@ -1,6 +1,12 @@
 import { build } from "../app";
 
-const app = build();
+const dbUrl = process.env.DB_URL || ":memory:";
+
+console.log(process.env.SIEMA);
+
+const app = build({
+  dbUrl,
+});
 
 const port = process.env.PORT || 3000;
 

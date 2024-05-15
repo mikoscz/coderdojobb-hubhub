@@ -6,7 +6,7 @@ import * as schema from "../drizzle/schema";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { movies } from "../drizzle/schema";
 
-function setupTestDb() {
+export function setupTestDb() {
   const sqlite = new Database(":memory:");
   const db = drizzle(sqlite, { schema });
 

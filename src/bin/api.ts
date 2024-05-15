@@ -2,8 +2,6 @@ import { build } from "../app";
 
 const dbUrl = process.env.DB_URL || ":memory:";
 
-console.log(process.env.SIEMA);
-
 const app = build({
   dbUrl,
 });

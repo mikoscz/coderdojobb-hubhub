@@ -1,5 +1,5 @@
-import { Database } from "../common";
 import { movies } from "../drizzle/schema";
+import { Database } from "../common";
 import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
 
 export class MoviesService {
@@ -37,10 +37,16 @@ export class MoviesService {
     id: string,
     updateData: { title?: string; description?: string; yearOfRelease?: number }
   ) {
-    return this.db
+    const [movie] = await this.db
       .update(movies)
       .set(updateData)
       .where(eq(movies.id, id))
       .returning();
+
+    if (!movie) {
+      return null;
+    }
+
+    return movie;
   }
 }

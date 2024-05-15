@@ -12,6 +12,9 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {
     this.routes.get("/movies", this.index);
     this.routes.post("/movies", this.create);
+    this.routes.get("/movies/:id", this.getMovie);
+    this.routes.delete("/movies/:id", this.deleteMovie);
+    this.routes.put("/movies/:id", this.updateMovie);
   }
 
   index = async (_req: Request, res: Response) => {
@@ -38,4 +41,40 @@ export class MoviesController {
       data: await this.moviesService.createMovie(newMovie),
     });
   };
+
+
+  getMovie = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    const movie = await this.moviesService.getMovieById(id);
+    if (!movie) {
+      return res.status(404).json({message: "Movie not found"});
+    }
+    res.json({data: movie});
+  }
+
+  deleteMovie = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    const movie = await this.moviesService.getMovieById(id);
+    if (!movie) {
+      return res.status(404).json({message: "Movie not found"});
+    }
+
+    await this.moviesService.deleteMovie(id);
+    res.json({message: "Movie deleted successfully"});
+  }
+
+  updateMovie = async (req: Request, res: Response) => {
+    const {id} = req.params;
+    const movie = await this.moviesService.updateMovie(id, req.body)
+
+    console.log("movie", movie)
+    if (!movie) {
+      return res.status(404).json({message: "Movie not found"});
+    }
+
+    res.json({data:movie });
+
+  }
+
+
 }

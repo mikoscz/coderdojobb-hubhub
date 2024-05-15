@@ -14,6 +14,7 @@ export class MoviesController {
     this.routes.get("/movies/:id", this.get);
     this.routes.post("/movies", this.create);
     this.routes.delete("/movies/:id", this.delete);
+    this.routes.patch("/movies/:id", this.update);
   }
 
   index = async (_req: Request, res: Response) => {
@@ -69,5 +70,16 @@ export class MoviesController {
     res.json({
       data: movie,
     });
+  };
+
+  update = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const movie = await this.moviesService.updateMovie(id, req.body);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json({ data: movie });
   };
 }

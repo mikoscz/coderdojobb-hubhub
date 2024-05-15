@@ -32,4 +32,15 @@ export class MoviesService {
     const [newMovie] = await db.insert(movies).values(movie).returning();
     return newMovie;
   }
+
+  async updateMovie(
+    id: string,
+    updateData: { title?: string; description?: string; yearOfRelease?: number }
+  ) {
+    return db
+      .update(movies)
+      .set(updateData)
+      .where(eq(movies.id, id))
+      .returning();
+  }
 }

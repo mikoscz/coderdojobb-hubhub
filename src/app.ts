@@ -7,6 +7,8 @@ import * as schema from "./drizzle/schema";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { UsersController } from "./auth/users.controller";
 import { UsersService } from "./auth/users.service";
+import { LikesController } from "./library/likes.controller";
+import { LikesService } from "./library/likes.service";
 
 export type AppConfig = {
   dbUrl: string;
@@ -25,6 +27,7 @@ export function build(config: AppConfig) {
   app.use(express.json());
   app.use(new MoviesController(new MoviesService(db)).routes);
   app.use(new UsersController(new UsersService(db)).routes);
+  app.use(new LikesController(new LikesService(db)).routes);
 
   app.get("/healthcheck", (_req: Request, res: Response) => {
     res.json({

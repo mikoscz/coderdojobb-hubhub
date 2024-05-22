@@ -1,4 +1,9 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  primaryKey,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 const timestamps = {
@@ -26,4 +31,19 @@ export const users = sqliteTable("users", {
   ...timestamps,
 });
 
-// TODO likes and comments
+export const likes = sqliteTable(
+  "likes",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    movieId: text("movie_id")
+      .notNull()
+      .references(() => movies.id),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.userId, table.movieId] }),
+    };
+  }
+);

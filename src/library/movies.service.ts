@@ -23,9 +23,17 @@ export class MoviesService {
 
   async getMovieById(id: string) {
     const [movie] = await this.db
-      .select()
+      .select({
+        id: movies.id,
+        title: movies.title,
+        description: movies.description,
+        yearOfRelease: movies.yearOfRelease,
+        likes: count(likes.userId),
+      })
       .from(movies)
-      .where(eq(movies.id, id));
+      .where(eq(movies.id, id))
+      .leftJoin(likes, eq(movies.id, likes.movieId))
+      .groupBy(movies.id);
 
     if (!movie) {
       return null;

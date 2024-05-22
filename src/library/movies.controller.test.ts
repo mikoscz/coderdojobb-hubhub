@@ -33,10 +33,17 @@ test("GET /movies", async () => {
 
   await db.insert(movies).values(sampleMovies);
 
+  const moviesWithLikes = sampleMovies.map((movie) => {
+    return {
+      ...movie,
+      likes: 0,
+    };
+  });
+
   const response = await request(app)
     .get("/movies")
     .expect(200)
     .expect("Content-Type", /json/);
 
-  expect(response.body).toMatchObject({ data: sampleMovies });
+  expect(response.body).toMatchObject({ data: moviesWithLikes });
 });

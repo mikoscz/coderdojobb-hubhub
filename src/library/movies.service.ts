@@ -16,7 +16,8 @@ export class MoviesService {
       })
       .from(movies)
       .leftJoin(likes, eq(movies.id, likes.movieId))
-      .groupBy(movies.id);
+      .groupBy(movies.id)
+      .orderBy(movies.title);
 
     return res;
   }

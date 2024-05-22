@@ -1,12 +1,24 @@
-import { movies } from "../drizzle/schema";
+import { likes, movies } from "../drizzle/schema";
 import { Database } from "../common";
-import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, count, eq } from "drizzle-orm";
 
 export class MoviesService {
   constructor(private readonly db: Database) {}
 
   async getAllMovies() {
-    return this.db.select().from(movies);
+    const res = await this.db
+      .select({
+        id: movies.id,
+        title: movies.title,
+        description: movies.description,
+        yearOfRelease: movies.yearOfRelease,
+        likes: count(likes.userId),
+      })
+      .from(movies)
+      .leftJoin(likes, eq(movies.id, likes.movieId))
+      .groupBy(movies.id);
+
+    return res;
   }
 
   async getMovieById(id: string) {

@@ -15,6 +15,13 @@
       "when": 1715180118896,
       "tag": "0001_add_timestamps_to_movies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1716389626511,
+      "tag": "0002_create_users",
+      "breakpoints": true
     }
   ]
 }

@@ -16,3 +16,14 @@ export const movies = sqliteTable("movies", {
   addedAt: text("added_at").default(sql`(CURRENT_TIMESTAMP)`),
   ...timestamps,
 });
+
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull(),
+  firstName: text("firstName").notNull(),
+  lastName: text("lastName").notNull(),
+  hashedPassword: text("hashedPassword").notNull(),
+  ...timestamps,
+});
+
+// TODO likes and comments

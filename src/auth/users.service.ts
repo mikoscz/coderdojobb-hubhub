@@ -1,9 +1,13 @@
 import { users } from "../drizzle/schema";
 import { Database } from "../common";
 import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
+import { MailerService } from "../common/mailer";
 
 export class UsersService {
-  constructor(private readonly db: Database) {}
+  constructor(
+    private readonly db: Database,
+    private readonly mailerService: MailerService
+  ) {}
 
   async getAllUsers() {
     return this.db.select().from(users);
@@ -49,5 +53,13 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async register(data: { email: string }) {
+    this.mailerService.sendEmail({
+      to: data.email,
+      subject: "Welcome to HubHub!",
+      text: "Welcome to HubHub! We're excited to have you on board.",
+    });
   }
 }

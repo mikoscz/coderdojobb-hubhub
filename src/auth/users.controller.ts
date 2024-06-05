@@ -3,8 +3,10 @@ import { UsersService } from "./users.service";
 import { v4 as uuid } from "uuid";
 import { createInsertSchema } from "drizzle-zod";
 import { users } from "../drizzle/schema";
+import { z } from "zod";
 
 const createSchema = createInsertSchema(users).omit({ id: true });
+const registerSchema = z.object({ email: z.string().email() });
 
 export class UsersController {
   public routes = Router();
@@ -15,6 +17,7 @@ export class UsersController {
     this.routes.post("/users", this.create);
     this.routes.delete("/users/:id", this.delete);
     this.routes.patch("/users/:id", this.update);
+    this.routes.post("/sign-up", this.register);
   }
 
   index = async (_req: Request, res: Response) => {
@@ -81,5 +84,21 @@ export class UsersController {
     }
 
     res.json({ data: user });
+  };
+
+  register = async (req: Request, res: Response) => {
+    const parsed = registerSchema.safeParse(req.body);
+
+    if (!parsed.success) {
+      return res.status(400).json({
+        errors: parsed.error.errors,
+      });
+    }
+
+    await this.usersService.register({ email: parsed.data.email });
+
+    res.json({
+      data: {},
+    });
   };
 }

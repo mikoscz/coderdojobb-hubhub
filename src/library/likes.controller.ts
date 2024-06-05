@@ -9,7 +9,7 @@ import { LikesService } from "./likes.service";
 const createSchema = createInsertSchema(movies).omit({ id: true });
 
 const likeSchema = z.object({
-  userId: z.string(),
+  userId: z.string().uuid(),
 });
 
 export class LikesController {

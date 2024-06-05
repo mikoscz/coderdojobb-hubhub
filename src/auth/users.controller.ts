@@ -57,9 +57,9 @@ export class UsersController {
   };
 
   delete = async (req: Request, res: Response) => {
-    const movie = await this.usersService.getUserById(req.params.id);
+    const user = await this.usersService.getUserById(req.params.id);
 
-    if (!movie) {
+    if (!user) {
       return res.status(404).json({
         error: "Not Found",
       });
@@ -68,7 +68,7 @@ export class UsersController {
     await this.usersService.deleteUserById(req.params.id);
 
     res.json({
-      data: movie,
+      data: user,
     });
   };
 
@@ -77,7 +77,7 @@ export class UsersController {
     const user = await this.usersService.updateUser(id, req.body);
 
     if (!user) {
-      return res.status(404).json({ message: "Movie not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.json({ data: user });

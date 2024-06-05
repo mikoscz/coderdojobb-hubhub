@@ -10,13 +10,13 @@ export class UsersService {
   }
 
   async getUserById(id: string) {
-    const [movie] = await this.db.select().from(users).where(eq(users.id, id));
+    const [user] = await this.db.select().from(users).where(eq(users.id, id));
 
-    if (!movie) {
+    if (!user) {
       return null;
     }
 
-    return movie;
+    return user;
   }
 
   async deleteUserById(id: string) {
@@ -26,8 +26,8 @@ export class UsersService {
   async createUser(
     user: InferInsertModel<typeof users>
   ): Promise<InferSelectModel<typeof users>> {
-    const [newMovie] = await this.db.insert(users).values(user).returning();
-    return newMovie;
+    const [newUser] = await this.db.insert(users).values(user).returning();
+    return newUser;
   }
 
   async updateUser(

@@ -6,7 +6,7 @@ import { users } from "../drizzle/schema";
 import { z } from "zod";
 
 const createSchema = createInsertSchema(users).omit({ id: true });
-const registerSchema = z.object({ email: z.string().email() });
+const registerSchema = z.object({ email: z.string().email(), password: z.string().length(3) });
 
 export class UsersController {
   public routes = Router();
@@ -94,10 +94,10 @@ export class UsersController {
         errors: parsed.error.errors,
       });
     }
+console.log(parsed.data)
+    await this.usersService.register({ email: parsed.data.email, password: parsed.data.password });
 
-    await this.usersService.register({ email: parsed.data.email });
-
-    res.json({
+    res.status(201).json({
       data: {},
     });
   };

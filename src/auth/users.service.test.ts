@@ -13,6 +13,7 @@ describe("UsersService", () => {
 
       await service.register({
         email: "test@test.com",
+        password: "ala"
       });
 
       expect(emailProvider.inboxSize).toBe(1);
@@ -20,7 +21,7 @@ describe("UsersService", () => {
         to: "test@test.com",
         from: "noreply@hubhub.com",
         subject: "Welcome to HubHub!",
-        text: "Welcome to HubHub! We're excited to have you on board.",
+        text: "Welcome to HubHub! We're excited to have you on board."
       });
     });
   });

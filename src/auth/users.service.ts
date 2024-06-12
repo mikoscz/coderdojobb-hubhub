@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     private readonly db: Database,
     private readonly mailerService: MailerService
-  ) {}
+  ) { }
 
   async getAllUsers() {
     return this.db.select().from(users);
@@ -61,18 +61,19 @@ export class UsersService {
 
   async register(data: { email: string, password: string }) {
     console.log(data)
-   await this.createUser({
-      id: uuid(),
-      email: data.email,
-      firstName:"aa",
-      lastName: "bb",
-      hashedPassword: data.password,
-      saltPassword: "ala",
-    })
-   await this.mailerService.sendEmail({
-      to: data.email,
-      subject: "Welcome to HubHub!",
-      text: "Welcome to HubHub! We're excited to have you on board.",
-    });
+    // const userVar = await this.createUser({
+    //   id: uuid(),
+    //   email: data.email,
+    //   firstName: "aa",
+    //   lastName: "bb",
+    //   hashedPassword: data.password,
+    //   saltPassword: "ala",
+    // })
+    // await this.mailerService.sendEmail({
+    //   to: data.email,
+    //   subject: "Welcome to HubHub!",
+    //   text: "Welcome to HubHub! We're excited to have you on board.",
+    // });
+    return 1
   }
 }

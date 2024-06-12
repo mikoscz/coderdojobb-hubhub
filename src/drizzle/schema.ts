@@ -27,7 +27,8 @@ export const users = sqliteTable("users", {
   email: text("email").notNull(),
   firstName: text("firstName").notNull(),
   lastName: text("lastName").notNull(),
-  hashedPassword: text("hashedPassword").notNull(),
+  hashedPassword: text("hashed_password").notNull(),
+  saltPassword: text("salt_password").notNull(),
   ...timestamps,
 });
 

@@ -6,7 +6,7 @@ import { users } from "../drizzle/schema";
 import { z } from "zod";
 
 const createSchema = createInsertSchema(users).omit({ id: true });
-const registerSchema = z.object({ email: z.string().email() });
+const registerSchema = z.object({ email: z.string().email(), password: z.string().min(3) });
 
 export class UsersController {
   public routes = Router();
@@ -87,17 +87,22 @@ export class UsersController {
   };
 
   register = async (req: Request, res: Response) => {
+    console.log("egxxxxxxxxxxxxxxister")
+    res.status(201).json({
+      data: {},
+    });
+    return 
     const parsed = registerSchema.safeParse(req.body);
 
+    console.log(JSON.stringify(parsed,null,2))
     if (!parsed.success) {
       return res.status(400).json({
         errors: parsed.error.errors,
       });
     }
-
-    await this.usersService.register({ email: parsed.data.email });
-
-    res.json({
+    console.log("egx101111111111xister")
+    await this.usersService.register({ email: parsed.data.email, password: parsed.data.password });
+    res.status(201).json({
       data: {},
     });
   };

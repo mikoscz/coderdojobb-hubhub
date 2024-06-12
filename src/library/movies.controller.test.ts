@@ -1,19 +1,16 @@
 import { expect, test } from "vitest";
-import { setupTestDb } from "./movies.service.test";
 import { build } from "../app";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { movies } from "../drizzle/schema";
 import request from "supertest";
+import { setupTestDb } from "../test/helpers";
 
 test("GET /movies", async () => {
+  const { dbClient, db } = setupTestDb();
+
   const app = build({
-    dbUrl: ":memory:",
+    db,
   });
-
-  // @ts-ignore
-  const db: Database = app.db;
-
-  migrate(db, { migrationsFolder: "drizzle" });
 
   const sampleMovies = [
     {
@@ -31,7 +28,7 @@ test("GET /movies", async () => {
     },
   ];
 
-  await db.insert(movies).values(sampleMovies);
+  await dbClient.insert(movies).values(sampleMovies);
 
   const moviesWithLikes = sampleMovies.map((movie) => {
     return {

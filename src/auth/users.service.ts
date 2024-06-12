@@ -4,12 +4,11 @@ import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
 import { MailerService } from "../common/mailer";
 import { v4 as uuid } from "uuid";
 
-
 export class UsersService {
   constructor(
     private readonly db: Database,
     private readonly mailerService: MailerService
-  ) { }
+  ) {}
 
   async getAllUsers() {
     return this.db.select().from(users);
@@ -32,7 +31,7 @@ export class UsersService {
   async createUser(
     user: InferInsertModel<typeof users>
   ): Promise<InferSelectModel<typeof users>> {
-    console.log(user)
+    console.log(user);
     const [newUser] = await this.db.insert(users).values(user).returning();
     return newUser;
   }
@@ -58,22 +57,22 @@ export class UsersService {
     return user;
   }
 
+  async register(data: { email: string; password: string }) {
+    const user = await this.createUser({
+      id: uuid(),
+      email: data.email,
+      firstName: "aa",
+      lastName: "bb",
+      hashedPassword: data.password,
+      saltPassword: "ala",
+    });
 
-  async register(data: { email: string, password: string }) {
-    console.log(data)
-    // const userVar = await this.createUser({
-    //   id: uuid(),
-    //   email: data.email,
-    //   firstName: "aa",
-    //   lastName: "bb",
-    //   hashedPassword: data.password,
-    //   saltPassword: "ala",
-    // })
-    // await this.mailerService.sendEmail({
-    //   to: data.email,
-    //   subject: "Welcome to HubHub!",
-    //   text: "Welcome to HubHub! We're excited to have you on board.",
-    // });
-    return 1
+    await this.mailerService.sendEmail({
+      to: data.email,
+      subject: "Welcome to HubHub!",
+      text: "Welcome to HubHub! We're excited to have you on board.",
+    });
+
+    return user;
   }
 }

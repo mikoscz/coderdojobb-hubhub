@@ -1,24 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { MoviesService } from "./movies.service";
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import * as schema from "../drizzle/schema";
-import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { likes, movies, users } from "../drizzle/schema";
-
-export function setupTestDb() {
-  const sqlite = new Database(":memory:");
-  const db = drizzle(sqlite, { schema });
-
-  migrate(db, { migrationsFolder: "drizzle" });
-
-  return db;
-}
+import { setupTestDb } from "../test/helpers";
 
 describe("MoviesService#getAllMovies", () => {
   test("if movies return correctly", async () => {
-    const db = setupTestDb();
-    const service = new MoviesService(db);
+    const { dbClient, db } = setupTestDb();
+    const service = new MoviesService(dbClient);
 
     const sampleMovies = [
       {
@@ -35,7 +23,7 @@ describe("MoviesService#getAllMovies", () => {
       },
     ];
 
-    await db.insert(movies).values(sampleMovies);
+    await dbClient.insert(movies).values(sampleMovies);
     const result = await service.getAllMovies();
 
     const moviesWithLikes = sampleMovies.map((movie) => {
@@ -48,9 +36,10 @@ describe("MoviesService#getAllMovies", () => {
     expect(result.length).toBe(2);
     expect(result).toMatchObject(moviesWithLikes);
   });
+
   test("if movies have likes", async () => {
-    const db = setupTestDb();
-    const service = new MoviesService(db);
+    const { dbClient } = setupTestDb();
+    const service = new MoviesService(dbClient);
 
     const sampleMovies = [
       {
@@ -74,6 +63,7 @@ describe("MoviesService#getAllMovies", () => {
         lastName: "Doe",
         email: "john@doe.com",
         hashedPassword: "hashedPassword",
+        saltPassword: "saltPassword",
       },
       {
         id: "b8e02380-6237-4255-aecf-4cf5a0fa59b2",
@@ -81,6 +71,7 @@ describe("MoviesService#getAllMovies", () => {
         lastName: "Doe",
         email: "jane@doe.com",
         hashedPassword: "hashedPassword",
+        saltPassword: "saltPassword",
       },
     ];
 
@@ -95,9 +86,9 @@ describe("MoviesService#getAllMovies", () => {
       },
     ];
 
-    await db.insert(movies).values(sampleMovies);
-    await db.insert(users).values(sampleUsers);
-    await db.insert(likes).values(sampleLikes);
+    await dbClient.insert(movies).values(sampleMovies);
+    await dbClient.insert(users).values(sampleUsers);
+    await dbClient.insert(likes).values(sampleLikes);
 
     const result = await service.getAllMovies();
 
@@ -115,8 +106,8 @@ describe("MoviesService#getAllMovies", () => {
 
 describe("MoviesService#updateMovie", () => {
   test("when movie exists updates title and description", async () => {
-    const db = setupTestDb();
-    const service = new MoviesService(db);
+    const { dbClient } = setupTestDb();
+    const service = new MoviesService(dbClient);
 
     const sampleMovies = [
       {
@@ -127,7 +118,7 @@ describe("MoviesService#updateMovie", () => {
       },
     ];
 
-    await db.insert(movies).values(sampleMovies);
+    await dbClient.insert(movies).values(sampleMovies);
 
     const result = await service.updateMovie(
       "b8e02380-6237-4255-aecf-4cf5a0fa59b2",
@@ -145,8 +136,8 @@ describe("MoviesService#updateMovie", () => {
   });
 
   test("when movie not exists returns null", async () => {
-    const db = setupTestDb();
-    const service = new MoviesService(db);
+    const { dbClient } = setupTestDb();
+    const service = new MoviesService(dbClient);
 
     const result = await service.updateMovie(
       "b8e02380-6237-4255-aecf-4cf5a0fa59b2",

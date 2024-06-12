@@ -1,19 +1,22 @@
 import { describe, expect, test } from "vitest";
-import { setupTestDb } from "../library/likes.service.test";
 import { UsersService } from "./users.service";
 import { MailerService } from "../common/mailer";
 import { TestEmailProvider } from "../common/mailer/test-email-provider";
+import { setupTestDb } from "../test/helpers";
 
 describe("UsersService", () => {
   describe("register", () => {
     test("sends and welcome email", async () => {
-      const db = setupTestDb();
+      const { dbClient } = setupTestDb();
       const emailProvider = new TestEmailProvider();
-      const service = new UsersService(db, new MailerService(emailProvider));
+      const service = new UsersService(
+        dbClient,
+        new MailerService(emailProvider)
+      );
 
       await service.register({
         email: "test@test.com",
-        password: "ala"
+        password: "ala",
       });
 
       expect(emailProvider.inboxSize).toBe(1);
@@ -21,7 +24,7 @@ describe("UsersService", () => {
         to: "test@test.com",
         from: "noreply@hubhub.com",
         subject: "Welcome to HubHub!",
-        text: "Welcome to HubHub! We're excited to have you on board."
+        text: "Welcome to HubHub! We're excited to have you on board.",
       });
     });
   });

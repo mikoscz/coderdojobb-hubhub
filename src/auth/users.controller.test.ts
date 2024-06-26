@@ -20,22 +20,14 @@ describe("UsersController", () => {
 
     await request(app).post("/sign-up").send(userInput).expect(201);
 
+    const [testUser] = await dbClient
+      .select()
+      .from(users)
+      .where(eq(users.email, userInput.email));
 
-
-
-    // expect(response.body).toMatchObject({})
-
-    //await db.insert(movies).values(sampleMovies);
-
-    const [testUser] = await dbClient.select().from(users).where(eq(users.email, userInput.email));
-
-    expect(testUser.email).toBe(userInput.email)
-    expect(testUser.hashedPassword).not.toBe(userInput.password)
+    expect(testUser.email).toBe(userInput.email);
+    expect(testUser.hashedPassword).not.toBe(userInput.password);
     expect(testUser.saltPassword).not.toBeNull();
     expect(testUser.hashedPassword).not.toBe(testUser.saltPassword);
-    
-
-
-
   });
 });

@@ -4,7 +4,7 @@ import { InferInsertModel, InferSelectModel, eq } from "drizzle-orm";
 import { MailerService } from "../common/mailer";
 import { v4 as uuid } from "uuid";
 import crypto from "node:crypto";
-
+import jwt from "jsonwebtoken";
 
 export class UsersService {
   constructor(
@@ -18,6 +18,16 @@ export class UsersService {
 
   async getUserById(id: string) {
     const [user] = await this.db.select().from(users).where(eq(users.id, id));
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async getUserByEmail(email: string) {
+    const [user] = await this.db.select().from(users).where(eq(users.email, email));
 
     if (!user) {
       return null;
@@ -77,6 +87,27 @@ export class UsersService {
 
     return user;
   }
+
+  async logIn(data: { email: string; password: string }) {
+    const user = await this.getUserByEmail(data.email);
+    
+    if(!user) {
+      throw new Error("User not Exists");
+    }
+
+    const { hash: hashedPassword } = hashPassword(data.password, user.saltPassword);
+
+    if(hashedPassword !== user.hashedPassword) {
+      throw new Error("Wrong password");
+    } 
+
+    process.env.SECRET = "SECRET" // zmienić to!
+    if(!process.env.SECRET) {
+      throw new Error("500");
+    }
+
+    return {token: jwt.sign({ id: user.id }, process.env.SECRET), user: user};
+  }
 }
 
 const config = {
@@ -86,9 +117,11 @@ const config = {
   digest: "sha512"
 };
 
-function hashPassword(password: string) {
+function hashPassword(password: string, salt?: string) {
   const { iterations, hashBytes, digest, saltBytes } = config;
-  const salt = crypto.randomBytes(saltBytes).toString("hex");
+  if(!salt) {
+    salt = crypto.randomBytes(saltBytes).toString("hex");
+  }
   const hash = crypto
     .pbkdf2Sync(password, salt, iterations, hashBytes, digest)
     .toString("hex");

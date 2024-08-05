@@ -28,4 +28,27 @@ describe("UsersService", () => {
       });
     });
   });
+  // describe("sign-in", () => {
+  //   test("...", async () => {
+  //     const { dbClient } = setupTestDb();
+  //     const emailProvider = new TestEmailProvider();
+  //     const service = new UsersService(
+  //       dbClient,
+  //       new MailerService(emailProvider)
+  //     );
+
+  //     await service.logIn({
+  //       email: "test@test.com",
+  //       password: "ala",
+  //     });
+
+  //     expect(emailProvider.inboxSize).toBe(1);
+  //     expect(emailProvider.lastEmail).toMatchObject({
+  //       to: "test@test.com",
+  //       from: "noreply@hubhub.com",
+  //       subject: "Welcome to HubHub!",
+  //       text: "Welcome to HubHub! We're excited to have you on board.",
+  //     });
+  //   });
+  // });
 });

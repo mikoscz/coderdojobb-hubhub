@@ -1,13 +1,14 @@
 import { expect, test } from "vitest";
 import { build } from "../app";
-import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { movies } from "../drizzle/schema";
 import request from "supertest";
-import { setupTestDb } from "../test/helpers";
+import { setupTestDb, signInAs } from "../test/helpers";
+
 
 test("GET /movies", async () => {
   const { dbClient, db } = setupTestDb();
 
+  const token = await signInAs(dbClient, "example@test.com");
   const app = build({
     db,
   });
@@ -39,6 +40,7 @@ test("GET /movies", async () => {
 
   const response = await request(app)
     .get("/movies")
+    .set("Cookie", [`autorization=${token}`])
     .expect(200)
     .expect("Content-Type", /json/);
 
